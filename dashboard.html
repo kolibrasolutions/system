@@ -428,6 +428,9 @@
     <script src="js/dashboard-charts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar componentes comuns
+            KolibraUtils.initCommonComponents();
+            
             // Inicializar gráficos do dashboard
             initDashboardCharts();
             // Verificar autenticação
