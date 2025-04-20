@@ -13,918 +13,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="css/style.css">
+    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <style>
-        :root {
-            /* Cores da Kolibra */
-            --primary-color: #004494;
-            --primary-light: #0066cc;
-            --primary-dark: #003366;
-            --accent-color: #FF7F00;
-            --accent-light: #FFA64D;
-            --accent-dark: #CC6600;
-            --light-text: #ffffff;
-            --dark-text: #121212;
-            --dark-bg: #121212;
-            --dark-card: #1e1e1e;
-            --dark-sidebar: #0a0a0a;
-            --success-color: #4CAF50;
-            --warning-color: #FFC107;
-            --danger-color: #F44336;
-            --info-color: #2196F3;
-            
-            /* Sombras */
-            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            --blue-shadow: 0 0 10px rgba(0, 68, 148, 0.5), 0 0 20px rgba(0, 68, 148, 0.3);
-            --orange-shadow: 0 0 10px rgba(255, 127, 0, 0.5), 0 0 20px rgba(255, 127, 0, 0.3);
-            
-            /* Fontes */
-            --font-primary: 'Poppins', sans-serif;
-            --font-secondary: 'Montserrat', sans-serif;
-            
-            /* Transições */
-            --transition-fast: 0.3s ease;
-            --transition-medium: 0.5s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--font-primary);
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition-fast);
-        }
-        
-        ul {
-            list-style: none;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background-color: var(--dark-sidebar);
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            transition: var(--transition-medium);
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .sidebar.collapsed {
-            width: 80px;
-        }
-        
-        .sidebar-header {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .sidebar-logo img {
-            height: 40px;
-            margin-right: 10px;
-            transition: var(--transition-medium);
-        }
-        
-        .sidebar.collapsed .sidebar-logo img {
-            margin-right: 0;
-        }
-        
-        .sidebar-logo h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-shadow: var(--blue-shadow);
-            transition: var(--transition-medium);
-        }
-        
-        .sidebar.collapsed .sidebar-logo h1 {
-            display: none;
-        }
-        
-        .sidebar-toggle {
-            margin-left: auto;
-            width: 30px;
-            height: 30px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .sidebar-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .sidebar-toggle i {
-            color: var(--light-text);
-            font-size: 1rem;
-            transition: var(--transition-medium);
-        }
-        
-        .sidebar.collapsed .sidebar-toggle i {
-            transform: rotate(180deg);
-        }
-        
-        .sidebar-menu {
-            padding: 20px 0;
-            flex: 1;
-            overflow-y: auto;
-        }
-        
-        .sidebar-menu::-webkit-scrollbar {
-            width: 5px;
-        }
-        
-        .sidebar-menu::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .sidebar-menu::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-        
-        .menu-item {
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            position: relative;
-        }
-        
-        .menu-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        .menu-item.active {
-            background-color: rgba(0, 68, 148, 0.2);
-            border-left: 3px solid var(--primary-color);
-        }
-        
-        .menu-icon {
-            width: 20px;
-            text-align: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            transition: var(--transition-fast);
-        }
-        
-        .sidebar.collapsed .menu-icon {
-            margin-right: 0;
-            font-size: 1.4rem;
-        }
-        
-        .menu-item:hover .menu-icon,
-        .menu-item.active .menu-icon {
-            color: var(--primary-color);
-        }
-        
-        .menu-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.8);
-            transition: var(--transition-fast);
-        }
-        
-        .sidebar.collapsed .menu-text {
-            display: none;
-        }
-        
-        .menu-item:hover .menu-text,
-        .menu-item.active .menu-text {
-            color: var(--light-text);
-        }
-        
-        .menu-arrow {
-            margin-left: auto;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            transition: var(--transition-fast);
-        }
-        
-        .sidebar.collapsed .menu-arrow {
-            display: none;
-        }
-        
-        .menu-item:hover .menu-arrow,
-        .menu-item.active .menu-arrow {
-            color: var(--light-text);
-        }
-        
-        .menu-item.expanded .menu-arrow {
-            transform: rotate(90deg);
-        }
-        
-        .submenu {
-            padding-left: 35px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        
-        .menu-item.expanded + .submenu {
-            max-height: 500px;
-        }
-        
-        .sidebar.collapsed .submenu {
-            display: none;
-        }
-        
-        .submenu-item {
-            padding: 10px 0;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .submenu-item:hover {
-            color: var(--primary-color);
-        }
-        
-        .submenu-item.active {
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-        
-        .submenu-icon {
-            width: 20px;
-            text-align: center;
-            margin-right: 10px;
-            font-size: 0.8rem;
-        }
-        
-        .submenu-text {
-            font-size: 0.9rem;
-        }
-        
-        .sidebar-footer {
-            padding: 15px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            flex: 1;
-        }
-        
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            font-weight: 600;
-            color: var(--light-text);
-            transition: var(--transition-medium);
-        }
-        
-        .sidebar.collapsed .user-avatar {
-            margin-right: 0;
-        }
-        
-        .user-details {
-            transition: var(--transition-medium);
-        }
-        
-        .sidebar.collapsed .user-details {
-            display: none;
-        }
-        
-        .user-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--light-text);
-        }
-        
-        .user-role {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .logout-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .logout-btn:hover {
-            background-color: rgba(244, 67, 54, 0.2);
-        }
-        
-        .logout-btn i {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1rem;
-            transition: var(--transition-fast);
-        }
-        
-        .logout-btn:hover i {
-            color: var(--danger-color);
-        }
-        
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            transition: var(--transition-medium);
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .sidebar.collapsed + .main-content {
-            margin-left: 80px;
-        }
-        
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .page-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--light-text);
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-        }
-        
-        .header-action {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 15px;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            position: relative;
-        }
-        
-        .header-action:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .header-action i {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.2rem;
-            transition: var(--transition-fast);
-        }
-        
-        .header-action:hover i {
-            color: var(--light-text);
-        }
-        
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
-        }
-        
-        .card-sm {
-            grid-column: span 3;
-        }
-        
-        .card-md {
-            grid-column: span 6;
-        }
-        
-        .card-lg {
-            grid-column: span 9;
-        }
-        
-        .card-xl {
-            grid-column: span 12;
-        }
-        
-        /* Cards */
-        .card {
-            background-color: var(--dark-card);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition-medium);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        }
-        
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--light-text);
-        }
-        
-        .card-actions {
-            display: flex;
-            align-items: center;
-        }
-        
-        .card-action {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 10px;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .card-action:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .card-action i {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            transition: var(--transition-fast);
-        }
-        
-        .card-action:hover i {
-            color: var(--light-text);
-        }
-        
-        /* Stats Card */
-        .stats-card {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .stats-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 10px 0;
-            color: var(--light-text);
-        }
-        
-        .stats-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .stats-change {
-            margin-top: 10px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .stats-change.positive {
-            color: var(--success-color);
-        }
-        
-        .stats-change.negative {
-            color: var(--danger-color);
-        }
-        
-        .stats-change i {
-            margin-right: 5px;
-        }
-        
-        .stats-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-        
-        .stats-icon.primary {
-            background-color: rgba(0, 68, 148, 0.2);
-            color: var(--primary-color);
-        }
-        
-        .stats-icon.accent {
-            background-color: rgba(255, 127, 0, 0.2);
-            color: var(--accent-color);
-        }
-        
-        .stats-icon.success {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: var(--success-color);
-        }
-        
-        .stats-icon.warning {
-            background-color: rgba(255, 193, 7, 0.2);
-            color: var(--warning-color);
-        }
-        
-        /* Progress Bar */
-        .progress-container {
-            margin-top: 15px;
-        }
-        
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        
-        .progress-label {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .progress-percentage {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--light-text);
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-value {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-        
-        .progress-value.primary {
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
-        }
-        
-        .progress-value.accent {
-            background: linear-gradient(90deg, var(--accent-dark), var(--accent-color));
-        }
-        
-        .progress-value.success {
-            background: linear-gradient(90deg, #388E3C, var(--success-color));
-        }
-        
-        .progress-value.warning {
-            background: linear-gradient(90deg, #FFA000, var(--warning-color));
-        }
-        
-        /* Chart Container */
-        .chart-container {
-            width: 100%;
-            height: 300px;
-            position: relative;
-        }
-        
-        /* Activity List */
-        .activity-list {
-            margin-top: 15px;
-        }
-        
-        .activity-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .activity-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .activity-icon.primary {
-            background-color: rgba(0, 68, 148, 0.2);
-            color: var(--primary-color);
-        }
-        
-        .activity-icon.accent {
-            background-color: rgba(255, 127, 0, 0.2);
-            color: var(--accent-color);
-        }
-        
-        .activity-icon.success {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: var(--success-color);
-        }
-        
-        .activity-icon.warning {
-            background-color: rgba(255, 193, 7, 0.2);
-            color: var(--warning-color);
-        }
-        
-        .activity-icon.danger {
-            background-color: rgba(244, 67, 54, 0.2);
-            color: var(--danger-color);
-        }
-        
-        .activity-content {
-            flex: 1;
-        }
-        
-        .activity-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--light-text);
-            margin-bottom: 5px;
-        }
-        
-        .activity-subtitle {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .activity-time {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-left: auto;
-            white-space: nowrap;
-            margin-left: 15px;
-        }
-        
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .quick-action {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        
-        .quick-action:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-        }
-        
-        .quick-action-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .quick-action-icon.primary {
-            background-color: rgba(0, 68, 148, 0.2);
-            color: var(--primary-color);
-        }
-        
-        .quick-action-icon.accent {
-            background-color: rgba(255, 127, 0, 0.2);
-            color: var(--accent-color);
-        }
-        
-        .quick-action-content {
-            flex: 1;
-        }
-        
-        .quick-action-title {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--light-text);
-            margin-bottom: 3px;
-        }
-        
-        .quick-action-subtitle {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .card-sm {
-                grid-column: span 6;
-            }
-            
-            .card-md {
-                grid-column: span 6;
-            }
-            
-            .card-lg {
-                grid-column: span 12;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 80px;
-            }
-            
-            .sidebar-logo h1 {
-                display: none;
-            }
-            
-            .sidebar-logo img {
-                margin-right: 0;
-            }
-            
-            .menu-text, .menu-arrow, .user-details {
-                display: none;
-            }
-            
-            .menu-icon {
-                margin-right: 0;
-                font-size: 1.4rem;
-            }
-            
-            .user-avatar {
-                margin-right: 0;
-            }
-            
-            .main-content {
-                margin-left: 80px;
-            }
-            
-            .submenu {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .header-actions {
-                margin-top: 15px;
-                width: 100%;
-                justify-content: flex-end;
-            }
-            
-            .page-title {
-                font-size: 1.5rem;
-            }
-            
-            .card-sm {
-                grid-column: span 12;
-            }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .sidebar {
-                width: 0;
-                box-shadow: none;
-            }
-            
-            .sidebar.mobile-open {
-                width: 280px;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-            }
-            
-            .sidebar.mobile-open .sidebar-logo h1,
-            .sidebar.mobile-open .menu-text,
-            .sidebar.mobile-open .menu-arrow,
-            .sidebar.mobile-open .user-details {
-                display: block;
-            }
-            
-            .sidebar.mobile-open .sidebar-logo img {
-                margin-right: 10px;
-            }
-            
-            .sidebar.mobile-open .menu-icon {
-                margin-right: 15px;
-                font-size: 1.2rem;
-            }
-            
-            .sidebar.mobile-open .user-avatar {
-                margin-right: 10px;
-            }
-            
-            .sidebar.mobile-open .submenu {
-                display: block;
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 15px;
-            }
-            
-            .mobile-menu-toggle {
-                display: block;
-                position: fixed;
-                top: 15px;
-                left: 15px;
-                z-index: 1000;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background-color: var(--primary-color);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            }
-            
-            .mobile-menu-toggle i {
-                color: var(--light-text);
-                font-size: 1.2rem;
-            }
-        }
-    </style>
 </head>
 <body>
     <!-- Mobile Menu Toggle (visible only on small screens) -->
@@ -964,7 +57,7 @@
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Acompanhamento de Metas</div>
                 </div>
-                <div class="submenu-item" data-page="analise-servicos">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Análise por Serviço</div>
                 </div>
@@ -976,15 +69,15 @@
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="clientes-submenu">
-                <div class="submenu-item" data-page="lista-clientes">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Lista de Clientes</div>
                 </div>
-                <div class="submenu-item" data-page="segmentacao">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Segmentação</div>
                 </div>
-                <div class="submenu-item" data-page="projetos-ativos">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Projetos Ativos</div>
                 </div>
@@ -996,11 +89,11 @@
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="servicos-submenu">
-                <div class="submenu-item" data-page="catalogo">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Catálogo de Serviços</div>
                 </div>
-                <div class="submenu-item" data-page="precos">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Preços e Margens</div>
                 </div>
@@ -1012,11 +105,11 @@
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="marketing-submenu">
-                <div class="submenu-item" data-page="calendario">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Calendário de Conteúdo</div>
                 </div>
-                <div class="submenu-item" data-page="canais">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Desempenho de Canais</div>
                 </div>
@@ -1028,11 +121,11 @@
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="financas-submenu">
-                <div class="submenu-item" data-page="receitas">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Receitas e Despesas</div>
                 </div>
-                <div class="submenu-item" data-page="projecoes">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Projeções</div>
                 </div>
@@ -1044,15 +137,15 @@
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="config-submenu">
-                <div class="submenu-item" data-page="perfil">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Perfil</div>
                 </div>
-                <div class="submenu-item" data-page="usuarios">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Usuários</div>
                 </div>
-                <div class="submenu-item" data-page="preferencias">
+                <div class="submenu-item">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Preferências</div>
                 </div>
@@ -1099,17 +192,17 @@
                 </div>
                 <div class="stats-card">
                     <div class="stats-label">Receita Mensal</div>
-                    <div class="stats-value">R$ 8.500</div>
-                    <div class="stats-change positive">
-                        <i class="fas fa-arrow-up"></i> 12% em relação ao mês anterior
+                    <div class="stats-value">R$ 0</div>
+                    <div class="stats-change">
+                        <i class="fas fa-minus"></i> Sem dados anteriores
                     </div>
                     <div class="progress-container">
                         <div class="progress-info">
                             <span class="progress-label">Meta Mensal</span>
-                            <span class="progress-percentage">59%</span>
+                            <span class="progress-percentage">0%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-value primary" style="width: 59%"></div>
+                            <div class="progress-value primary" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
@@ -1122,17 +215,17 @@
                 </div>
                 <div class="stats-card">
                     <div class="stats-label">Vendas Totais</div>
-                    <div class="stats-value">108</div>
-                    <div class="stats-change positive">
-                        <i class="fas fa-arrow-up"></i> 18% em relação ao mês anterior
+                    <div class="stats-value">0</div>
+                    <div class="stats-change">
+                        <i class="fas fa-minus"></i> Sem dados anteriores
                     </div>
                     <div class="progress-container">
                         <div class="progress-info">
                             <span class="progress-label">Meta Mensal</span>
-                            <span class="progress-percentage">72%</span>
+                            <span class="progress-percentage">0%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-value accent" style="width: 72%"></div>
+                            <div class="progress-value accent" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
@@ -1145,17 +238,17 @@
                 </div>
                 <div class="stats-card">
                     <div class="stats-label">Clientes Ativos</div>
-                    <div class="stats-value">42</div>
-                    <div class="stats-change positive">
-                        <i class="fas fa-arrow-up"></i> 8% em relação ao mês anterior
+                    <div class="stats-value">0</div>
+                    <div class="stats-change">
+                        <i class="fas fa-minus"></i> Sem dados anteriores
                     </div>
                     <div class="progress-container">
                         <div class="progress-info">
                             <span class="progress-label">Retenção</span>
-                            <span class="progress-percentage">85%</span>
+                            <span class="progress-percentage">0%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-value success" style="width: 85%"></div>
+                            <div class="progress-value success" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
@@ -1168,17 +261,17 @@
                 </div>
                 <div class="stats-card">
                     <div class="stats-label">Projetos em Andamento</div>
-                    <div class="stats-value">15</div>
-                    <div class="stats-change positive">
-                        <i class="fas fa-arrow-up"></i> 5% em relação ao mês anterior
+                    <div class="stats-value">0</div>
+                    <div class="stats-change">
+                        <i class="fas fa-minus"></i> Sem dados anteriores
                     </div>
                     <div class="progress-container">
                         <div class="progress-info">
                             <span class="progress-label">Conclusão</span>
-                            <span class="progress-percentage">68%</span>
+                            <span class="progress-percentage">0%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-value warning" style="width: 68%"></div>
+                            <div class="progress-value warning" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
@@ -1196,6 +289,11 @@
                 </div>
                 <div class="chart-container">
                     <canvas id="servicosChart"></canvas>
+                    <div class="no-data-message">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>Sem dados de vendas disponíveis</p>
+                        <a href="registro-vendas.html" class="btn btn-primary btn-sm">Registrar Vendas</a>
+                    </div>
                 </div>
             </div>
             
@@ -1211,6 +309,11 @@
                 </div>
                 <div class="chart-container">
                     <canvas id="segmentosChart"></canvas>
+                    <div class="no-data-message">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>Sem dados de vendas disponíveis</p>
+                        <a href="registro-vendas.html" class="btn btn-primary btn-sm">Registrar Vendas</a>
+                    </div>
                 </div>
             </div>
             
@@ -1225,59 +328,10 @@
                     </div>
                 </div>
                 <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon success">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Venda concluída: Kit Confeitaria Digital</div>
-                            <div class="activity-subtitle">Cliente: Maria Silva</div>
-                        </div>
-                        <div class="activity-time">Hoje, 14:30</div>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon primary">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Novo cliente cadastrado</div>
-                            <div class="activity-subtitle">Ana Terapias Holísticas</div>
-                        </div>
-                        <div class="activity-time">Hoje, 11:15</div>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon warning">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Projeto atualizado: Site Intermediário</div>
-                            <div class="activity-subtitle">Cliente: Estética Bella</div>
-                        </div>
-                        <div class="activity-time">Ontem, 16:45</div>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon accent">
-                            <i class="fas fa-comment"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Novo comentário no projeto</div>
-                            <div class="activity-subtitle">Branding Profissional - Hamburgueria Artesanal</div>
-                        </div>
-                        <div class="activity-time">Ontem, 10:20</div>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon danger">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Prazo próximo do fim</div>
-                            <div class="activity-subtitle">Kit Terapia Holística - Ana Terapias</div>
-                        </div>
-                        <div class="activity-time">2 dias atrás</div>
+                    <div class="no-data-message">
+                        <i class="fas fa-history"></i>
+                        <p>Nenhuma atividade recente</p>
+                        <a href="registro-vendas.html" class="btn btn-primary btn-sm">Iniciar Atividades</a>
                     </div>
                 </div>
             </div>
@@ -1303,7 +357,7 @@
                         </div>
                     </div>
                     
-                    <div class="quick-action" data-page="lista-clientes">
+                    <div class="quick-action">
                         <div class="quick-action-icon accent">
                             <i class="fas fa-user-plus"></i>
                         </div>
@@ -1313,7 +367,7 @@
                         </div>
                     </div>
                     
-                    <div class="quick-action" data-page="projetos-ativos">
+                    <div class="quick-action">
                         <div class="quick-action-icon success">
                             <i class="fas fa-project-diagram"></i>
                         </div>
@@ -1350,11 +404,27 @@
                 </div>
                 <div class="chart-container">
                     <canvas id="evolucaoMensalChart"></canvas>
+                    <div class="no-data-message">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Sem dados de vendas disponíveis</p>
+                        <a href="registro-vendas.html" class="btn btn-primary btn-sm">Registrar Vendas</a>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Mensagem de Funcionalidades em Desenvolvimento -->
+        <div class="alert alert-info mt-4" id="funcionalidades-info" style="display: none;">
+            <i class="fas fa-info-circle mr-2"></i>
+            <span>Algumas funcionalidades do menu estão em desenvolvimento e serão implementadas em breve.</span>
+            <button class="btn btn-sm btn-secondary ml-3" onclick="document.getElementById('funcionalidades-info').style.display = 'none';">
+                Entendi
+            </button>
+        </div>
     </div>
     
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Verificar autenticação
@@ -1414,14 +484,96 @@
                 this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNDAgMTBDMjMuNDMgMTAgMTAgMjMuNDMgMTAgNDBDMTAgNTYuNTcgMjMuNDMgNzAgNDAgNzBDNTYuNTcgNzAgNzAgNTYuNTcgNzAgNDBDNzAgMjMuNDMgNTYuNTcgMTAgNDAgMTBaIiBmaWxsPSIjMDA0NDk0Ii8+PHBhdGggZD0iTTUwIDI1TDMwIDQwTDUwIDU1VjI1WiIgZmlsbD0iI0ZGN0YwMCIvPjwvc3ZnPg==';
             };
             
-            // Gráfico de Vendas por Serviço
+            // Mostrar mensagem de funcionalidades em desenvolvimento
+            document.getElementById('funcionalidades-info').style.display = 'flex';
+            
+            // Navegação entre páginas
+            document.querySelectorAll('.menu-item, .submenu-item, .quick-action').forEach(item => {
+                if (item.dataset.page) {
+                    item.addEventListener('click', function() {
+                        const page = this.dataset.page;
+                        if (page === 'dashboard') {
+                            window.location.href = 'dashboard.html';
+                        } else if (page === 'registro-vendas') {
+                            window.location.href = 'registro-vendas.html';
+                        } else if (page === 'metas') {
+                            window.location.href = 'metas.html';
+                        } else {
+                            // Mostrar mensagem para páginas não implementadas
+                            alert('Esta funcionalidade está em desenvolvimento e será implementada em breve.');
+                        }
+                    });
+                } else {
+                    // Adicionar alerta para itens de menu sem página definida
+                    item.addEventListener('click', function(e) {
+                        if (!this.classList.contains('menu-item') || !this.hasAttribute('data-toggle')) {
+                            alert('Esta funcionalidade está em desenvolvimento e será implementada em breve.');
+                        }
+                    });
+                }
+            });
+            
+            // Estilo para mensagens de sem dados
+            const style = document.createElement('style');
+            style.textContent = `
+                .no-data-message {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    min-height: 200px;
+                    color: rgba(255, 255, 255, 0.5);
+                    text-align: center;
+                    padding: 20px;
+                }
+                
+                .no-data-message i {
+                    font-size: 3rem;
+                    margin-bottom: 15px;
+                    opacity: 0.3;
+                }
+                
+                .no-data-message p {
+                    margin-bottom: 15px;
+                    font-size: 1rem;
+                }
+                
+                .chart-container {
+                    position: relative;
+                    width: 100%;
+                    height: 300px;
+                }
+                
+                .chart-container canvas {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                    opacity: 0.1;
+                }
+                
+                .chart-container .no-data-message {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 2;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Inicializar gráficos vazios
             const servicosCtx = document.getElementById('servicosChart').getContext('2d');
             const servicosChart = new Chart(servicosCtx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Sites', 'Branding', 'Kits Segmentados', 'Suporte Mensal'],
                     datasets: [{
-                        data: [35, 20, 25, 20],
+                        data: [0, 0, 0, 0],
                         backgroundColor: [
                             '#004494',
                             '#FF7F00',
@@ -1463,22 +615,12 @@
                             bodyFont: {
                                 family: "'Poppins', sans-serif",
                                 size: 13
-                            },
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((acc, data) => acc + data, 0);
-                                    const percentage = Math.round((value / total) * 100);
-                                    return `${label}: ${percentage}% (${value})`;
-                                }
                             }
                         }
                     }
                 }
             });
             
-            // Gráfico de Vendas por Segmento
             const segmentosCtx = document.getElementById('segmentosChart').getContext('2d');
             const segmentosChart = new Chart(segmentosCtx, {
                 type: 'bar',
@@ -1486,7 +628,7 @@
                     labels: ['Beleza', 'Bem-estar', 'Serviços', 'Gastronomia'],
                     datasets: [{
                         label: 'Vendas por Segmento',
-                        data: [42, 28, 18, 20],
+                        data: [0, 0, 0, 0],
                         backgroundColor: [
                             'rgba(0, 68, 148, 0.7)',
                             'rgba(255, 127, 0, 0.7)',
@@ -1549,7 +691,6 @@
                 }
             });
             
-            // Gráfico de Evolução Mensal
             const evolucaoMensalCtx = document.getElementById('evolucaoMensalChart').getContext('2d');
             const evolucaoMensalChart = new Chart(evolucaoMensalCtx, {
                 type: 'line',
@@ -1558,7 +699,7 @@
                     datasets: [
                         {
                             label: 'Receita Mensal',
-                            data: [1500, 2300, 3200, 4100, 5000, 6200, 7100, 8500, null, null, null, null],
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                             borderColor: '#004494',
                             backgroundColor: 'rgba(0, 68, 148, 0.1)',
                             tension: 0.4,
@@ -1648,21 +789,6 @@
                             }
                         }
                     }
-                }
-            });
-            
-            // Navegação entre páginas
-            document.querySelectorAll('.menu-item, .submenu-item, .quick-action').forEach(item => {
-                if (item.dataset.page) {
-                    item.addEventListener('click', function() {
-                        const page = this.dataset.page;
-                        if (page === 'registro-vendas') {
-                            window.location.href = 'registro-vendas.html';
-                        } else if (page === 'metas') {
-                            window.location.href = 'metas.html';
-                        }
-                        // Outras páginas seriam implementadas de forma similar
-                    });
                 }
             });
         });

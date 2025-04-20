@@ -62,7 +62,7 @@ function setupLogout() {
     });
 }
 
-// Gerar logo placeholder
+// Gerar logo placeholder se a imagem não existir
 function setupLogoPlaceholder() {
     const logoPlaceholder = document.getElementById('logo-placeholder');
     logoPlaceholder.onerror = function() {
@@ -83,9 +83,18 @@ function setupNavigation() {
                     window.location.href = 'registro-vendas.html';
                 } else if (page === 'metas') {
                     window.location.href = 'metas.html';
+                } else {
+                    // Mostrar mensagem para páginas não implementadas
+                    alert('Esta funcionalidade está em desenvolvimento e será implementada em breve.');
                 }
-                // Outras páginas seriam implementadas de forma similar
             });
+        } else {
+            // Adicionar alerta para itens de menu sem página definida
+            if (!item.classList.contains('menu-item') || !item.hasAttribute('data-toggle')) {
+                item.addEventListener('click', function(e) {
+                    alert('Esta funcionalidade está em desenvolvimento e será implementada em breve.');
+                });
+            }
         }
     });
 }
