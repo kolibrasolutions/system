@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Vendas - Kolibra Solutions</title>
+    <title>Lista de Clientes - Kolibra Solutions</title>
     
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,13 +44,13 @@
                 <div class="menu-text">Dashboard</div>
             </div>
             
-            <div class="menu-item expanded" data-toggle="vendas-submenu">
+            <div class="menu-item" data-toggle="vendas-submenu">
                 <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
                 <div class="menu-text">Vendas</div>
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="vendas-submenu">
-                <div class="submenu-item active" data-page="registro-vendas">
+                <div class="submenu-item" data-page="registro-vendas">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Registro de Vendas</div>
                 </div>
@@ -64,13 +64,13 @@
                 </div>
             </div>
             
-            <div class="menu-item" data-toggle="clientes-submenu">
+            <div class="menu-item expanded" data-toggle="clientes-submenu">
                 <div class="menu-icon"><i class="fas fa-users"></i></div>
                 <div class="menu-text">Clientes</div>
                 <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div class="submenu" id="clientes-submenu">
-                <div class="submenu-item" data-page="lista-clientes">
+                <div class="submenu-item active" data-page="lista-clientes">
                     <div class="submenu-icon"><i class="fas fa-circle"></i></div>
                     <div class="submenu-text">Lista de Clientes</div>
                 </div>
@@ -170,7 +170,7 @@
     <!-- Main Content -->
     <div class="main-content" id="main-content">
         <div class="header">
-            <h1 class="page-title">Registro de Vendas</h1>
+            <h1 class="page-title">Lista de Clientes</h1>
             <div class="header-actions">
                 <div class="header-action">
                     <i class="fas fa-search"></i>
@@ -184,10 +184,10 @@
             </div>
         </div>
         
-        <!-- Registro de Vendas -->
+        <!-- Novo Cliente -->
         <div class="card card-xl">
             <div class="card-header">
-                <h3 class="card-title">Nova Venda</h3>
+                <h3 class="card-title">Novo Cliente</h3>
                 <div class="card-actions">
                     <div class="card-action">
                         <i class="fas fa-ellipsis-v"></i>
@@ -195,45 +195,15 @@
                 </div>
             </div>
             <div class="form-container">
-                <form id="vendaForm">
+                <form id="clienteForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="cliente">Cliente</label>
-                            <select id="cliente" required>
-                                <option value="">Selecione um cliente</option>
-                                <option value="Empresa A">Empresa A</option>
-                                <option value="Empresa B">Empresa B</option>
-                                <option value="Empresa C">Empresa C</option>
-                                <option value="Empresa D">Empresa D</option>
-                                <option value="Empresa E">Empresa E</option>
-                            </select>
+                            <label for="nomeCliente">Nome/Empresa</label>
+                            <input type="text" id="nomeCliente" required>
                         </div>
                         <div class="form-group">
-                            <label for="servico">Serviço</label>
-                            <select id="servico" required>
-                                <option value="">Selecione um serviço</option>
-                                <option value="Consultoria Estratégica">Consultoria Estratégica</option>
-                                <option value="Desenvolvimento Web">Desenvolvimento Web</option>
-                                <option value="Marketing Digital">Marketing Digital</option>
-                                <option value="Design Gráfico">Design Gráfico</option>
-                                <option value="Suporte Técnico">Suporte Técnico</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="valor">Valor (R$)</label>
-                            <input type="number" id="valor" min="0" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="data">Data</label>
-                            <input type="date" id="data" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="segmento">Segmento</label>
-                            <select id="segmento" required>
+                            <label for="segmentoCliente">Segmento</label>
+                            <select id="segmentoCliente" required>
                                 <option value="">Selecione um segmento</option>
                                 <option value="Tecnologia">Tecnologia</option>
                                 <option value="Saúde">Saúde</option>
@@ -242,33 +212,41 @@
                                 <option value="Finanças">Finanças</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
-                            <label for="status">Status</label>
-                            <select id="status" required>
-                                <option value="Concluído">Concluído</option>
-                                <option value="Em andamento">Em andamento</option>
-                                <option value="Agendado">Agendado</option>
-                            </select>
+                            <label for="emailCliente">Email</label>
+                            <input type="email" id="emailCliente" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefoneCliente">Telefone</label>
+                            <input type="tel" id="telefoneCliente" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group full-width">
-                            <label for="observacoes">Observações</label>
-                            <textarea id="observacoes" rows="3"></textarea>
+                            <label for="enderecoCliente">Endereço</label>
+                            <input type="text" id="enderecoCliente">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="observacoesCliente">Observações</label>
+                            <textarea id="observacoesCliente" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="limparBtn">Limpar</button>
-                        <button type="submit" class="btn btn-primary">Registrar Venda</button>
+                        <button type="button" class="btn btn-secondary" id="limparClienteBtn">Limpar</button>
+                        <button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
                     </div>
                 </form>
             </div>
         </div>
         
-        <!-- Lista de Vendas -->
+        <!-- Lista de Clientes -->
         <div class="card card-xl">
             <div class="card-header">
-                <h3 class="card-title">Vendas Registradas</h3>
+                <h3 class="card-title">Clientes Cadastrados</h3>
                 <div class="card-actions">
                     <div class="card-action">
                         <i class="fas fa-ellipsis-v"></i>
@@ -280,28 +258,27 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Data</th>
-                            <th>Cliente</th>
-                            <th>Serviço</th>
+                            <th>Nome/Empresa</th>
                             <th>Segmento</th>
-                            <th>Valor</th>
-                            <th>Status</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Projetos Ativos</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="vendasTableBody">
-                        <!-- Dados de vendas serão inseridos aqui via JavaScript -->
+                    <tbody id="clientesTableBody">
+                        <!-- Dados de clientes serão inseridos aqui via JavaScript -->
                     </tbody>
                 </table>
-                <div id="noVendasMessage" class="no-data-message">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>Nenhuma venda registrada</p>
+                <div id="noClientesMessage" class="no-data-message">
+                    <i class="fas fa-users"></i>
+                    <p>Nenhum cliente cadastrado</p>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- CSS Adicional para a página de registro de vendas -->
+    <!-- CSS Adicional para a página de clientes -->
     <style>
         .form-container {
             padding: 20px 0;
@@ -433,233 +410,285 @@
         document.addEventListener('DOMContentLoaded', function() {
             KolibraUtils.initCommonComponents();
             
-            // Definir data atual no campo de data
-            document.getElementById('data').value = KolibraUtils.getCurrentDateFormatted();
-            
-            // Inicializar gerenciamento de vendas
-            initVendasManager();
+            // Inicializar gerenciamento de clientes
+            initClientesManager();
         });
         
-        // Gerenciamento de Vendas
-        function initVendasManager() {
-            const vendaForm = document.getElementById('vendaForm');
-            const limparBtn = document.getElementById('limparBtn');
-            const vendasTableBody = document.getElementById('vendasTableBody');
-            const noVendasMessage = document.getElementById('noVendasMessage');
+        // Gerenciamento de Clientes
+        function initClientesManager() {
+            const clienteForm = document.getElementById('clienteForm');
+            const limparClienteBtn = document.getElementById('limparClienteBtn');
+            const clientesTableBody = document.getElementById('clientesTableBody');
+            const noClientesMessage = document.getElementById('noClientesMessage');
             
-            // Carregar vendas do localStorage
-            loadVendas();
+            // Carregar clientes do localStorage
+            loadClientes();
             
-            // Event listener para o formulário de vendas
-            vendaForm.addEventListener('submit', function(e) {
+            // Event listener para o formulário de clientes
+            clienteForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 // Obter valores do formulário
-                const venda = {
-                    id: generateId(),
-                    data: document.getElementById('data').value,
-                    cliente: document.getElementById('cliente').value,
-                    servico: document.getElementById('servico').value,
-                    segmento: document.getElementById('segmento').value,
-                    valor: parseFloat(document.getElementById('valor').value),
-                    status: document.getElementById('status').value,
-                    observacoes: document.getElementById('observacoes').value,
+                const cliente = {
+                    id: generateClienteId(),
+                    nome: document.getElementById('nomeCliente').value,
+                    segmento: document.getElementById('segmentoCliente').value,
+                    email: document.getElementById('emailCliente').value,
+                    telefone: document.getElementById('telefoneCliente').value,
+                    endereco: document.getElementById('enderecoCliente').value,
+                    observacoes: document.getElementById('observacoesCliente').value,
+                    projetosAtivos: 0,
                     timestamp: new Date().toISOString()
                 };
                 
-                // Salvar venda
-                saveVenda(venda);
+                // Salvar cliente
+                saveCliente(cliente);
                 
                 // Limpar formulário
-                vendaForm.reset();
-                document.getElementById('data').value = KolibraUtils.getCurrentDateFormatted();
-                
-                // Atualizar dashboard se estiver na mesma página
-                if (typeof initDashboardCharts === 'function') {
-                    initDashboardCharts();
-                }
+                clienteForm.reset();
                 
                 // Mostrar alerta de sucesso
-                KolibraUtils.showAlert('Venda registrada com sucesso!', 'success');
+                KolibraUtils.showAlert('Cliente cadastrado com sucesso!', 'success');
             });
             
             // Event listener para o botão de limpar
-            limparBtn.addEventListener('click', function() {
-                vendaForm.reset();
-                document.getElementById('data').value = KolibraUtils.getCurrentDateFormatted();
+            limparClienteBtn.addEventListener('click', function() {
+                clienteForm.reset();
             });
             
-            // Função para carregar vendas do localStorage
-            function loadVendas() {
-                const vendas = getVendas();
+            // Função para carregar clientes do localStorage
+            function loadClientes() {
+                const clientes = getClientes();
                 
                 // Limpar tabela
-                vendasTableBody.innerHTML = '';
+                clientesTableBody.innerHTML = '';
                 
-                // Verificar se há vendas
-                if (vendas.length === 0) {
-                    noVendasMessage.style.display = 'flex';
+                // Verificar se há clientes
+                if (clientes.length === 0) {
+                    noClientesMessage.style.display = 'flex';
+                    
+                    // Adicionar clientes padrão automaticamente se não houver nenhum
+                    addClientesExemplo();
                     return;
                 }
                 
-                // Ocultar mensagem de "sem vendas"
-                noVendasMessage.style.display = 'none';
+                // Ocultar mensagem de "sem clientes"
+                noClientesMessage.style.display = 'none';
                 
-                // Ordenar vendas por data (mais recentes primeiro)
-                vendas.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                // Ordenar clientes por nome
+                clientes.sort((a, b) => a.nome.localeCompare(b.nome));
                 
-                // Adicionar vendas à tabela
-                vendas.forEach(venda => {
+                // Adicionar clientes à tabela
+                clientes.forEach(cliente => {
                     const tr = document.createElement('tr');
                     
                     tr.innerHTML = `
-                        <td>${venda.id}</td>
-                        <td>${KolibraUtils.formatDate(venda.data)}</td>
-                        <td>${venda.cliente}</td>
-                        <td>${venda.servico}</td>
-                        <td>${venda.segmento}</td>
-                        <td>${KolibraUtils.formatCurrency(venda.valor)}</td>
-                        <td>${venda.status}</td>
+                        <td>${cliente.id}</td>
+                        <td>${cliente.nome}</td>
+                        <td>${cliente.segmento}</td>
+                        <td>${cliente.email}</td>
+                        <td>${cliente.telefone}</td>
+                        <td>${cliente.projetosAtivos}</td>
                         <td>
-                            <div class="action-btn view" title="Visualizar" onclick="viewVenda('${venda.id}')">
+                            <div class="action-btn view" title="Visualizar" onclick="viewCliente('${cliente.id}')">
                                 <i class="fas fa-eye"></i>
                             </div>
-                            <div class="action-btn edit" title="Editar" onclick="editVenda('${venda.id}')">
+                            <div class="action-btn edit" title="Editar" onclick="editCliente('${cliente.id}')">
                                 <i class="fas fa-edit"></i>
                             </div>
-                            <div class="action-btn delete" title="Excluir" onclick="deleteVenda('${venda.id}')">
+                            <div class="action-btn delete" title="Excluir" onclick="deleteCliente('${cliente.id}')">
                                 <i class="fas fa-trash"></i>
                             </div>
                         </td>
                     `;
                     
-                    vendasTableBody.appendChild(tr);
+                    clientesTableBody.appendChild(tr);
                 });
             }
             
-            // Função para salvar venda
-            function saveVenda(venda) {
-                const vendas = getVendas();
-                vendas.push(venda);
-                localStorage.setItem('kolibra_vendas', JSON.stringify(vendas));
+            // Função para adicionar clientes de exemplo
+            function addClientesExemplo() {
+                const clientesExemplo = [
+                    {
+                        id: 'C0001',
+                        nome: 'Empresa A',
+                        segmento: 'Tecnologia',
+                        email: 'contato@empresaa.com',
+                        telefone: '(11) 1234-5678',
+                        endereco: 'Av. Paulista, 1000, São Paulo - SP',
+                        observacoes: 'Cliente desde 2022',
+                        projetosAtivos: 2,
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: 'C0002',
+                        nome: 'Empresa B',
+                        segmento: 'Saúde',
+                        email: 'contato@empresab.com',
+                        telefone: '(11) 2345-6789',
+                        endereco: 'Rua Augusta, 500, São Paulo - SP',
+                        observacoes: 'Cliente desde 2023',
+                        projetosAtivos: 1,
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: 'C0003',
+                        nome: 'Empresa C',
+                        segmento: 'Educação',
+                        email: 'contato@empresac.com',
+                        telefone: '(11) 3456-7890',
+                        endereco: 'Av. Rebouças, 300, São Paulo - SP',
+                        observacoes: 'Cliente desde 2021',
+                        projetosAtivos: 3,
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: 'C0004',
+                        nome: 'Empresa D',
+                        segmento: 'Varejo',
+                        email: 'contato@empresad.com',
+                        telefone: '(11) 4567-8901',
+                        endereco: 'Rua Oscar Freire, 200, São Paulo - SP',
+                        observacoes: 'Cliente desde 2023',
+                        projetosAtivos: 0,
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: 'C0005',
+                        nome: 'Empresa E',
+                        segmento: 'Finanças',
+                        email: 'contato@empresae.com',
+                        telefone: '(11) 5678-9012',
+                        endereco: 'Av. Brigadeiro Faria Lima, 100, São Paulo - SP',
+                        observacoes: 'Cliente desde 2022',
+                        projetosAtivos: 1,
+                        timestamp: new Date().toISOString()
+                    }
+                ];
+                
+                localStorage.setItem('kolibra_clientes', JSON.stringify(clientesExemplo));
+                loadClientes();
+                
+                // Mostrar alerta de sucesso
+                KolibraUtils.showAlert('Clientes de exemplo adicionados com sucesso!', 'success');
+            }
+            
+            // Função para salvar cliente
+            function saveCliente(cliente) {
+                const clientes = getClientes();
+                clientes.push(cliente);
+                localStorage.setItem('kolibra_clientes', JSON.stringify(clientes));
                 
                 // Atualizar tabela
-                loadVendas();
+                loadClientes();
             }
             
             // Função para gerar ID único
-            function generateId() {
-                return 'V' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            function generateClienteId() {
+                return 'C' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
             }
         }
         
-        // Função para obter vendas do localStorage
-        function getVendas() {
-            const vendas = localStorage.getItem('kolibra_vendas');
-            return vendas ? JSON.parse(vendas) : [];
+        // Função para obter clientes do localStorage
+        function getClientes() {
+            const clientes = localStorage.getItem('kolibra_clientes');
+            return clientes ? JSON.parse(clientes) : [];
         }
         
-        // Função para visualizar venda
-        function viewVenda(id) {
-            const vendas = getVendas();
-            const venda = vendas.find(v => v.id === id);
+        // Função para visualizar cliente
+        function viewCliente(id) {
+            const clientes = getClientes();
+            const cliente = clientes.find(c => c.id === id);
             
-            if (venda) {
-                alert(`Detalhes da Venda ${venda.id}:\n\nCliente: ${venda.cliente}\nServiço: ${venda.servico}\nValor: ${KolibraUtils.formatCurrency(venda.valor)}\nData: ${KolibraUtils.formatDate(venda.data)}\nSegmento: ${venda.segmento}\nStatus: ${venda.status}\nObservações: ${venda.observacoes || 'Nenhuma'}`);
+            if (cliente) {
+                alert(`Detalhes do Cliente ${cliente.id}:\n\nNome/Empresa: ${cliente.nome}\nSegmento: ${cliente.segmento}\nEmail: ${cliente.email}\nTelefone: ${cliente.telefone}\nEndereço: ${cliente.endereco || 'Não informado'}\nProjetos Ativos: ${cliente.projetosAtivos}\nObservações: ${cliente.observacoes || 'Nenhuma'}`);
             }
         }
         
-        // Função para editar venda
-        function editVenda(id) {
-            const vendas = getVendas();
-            const venda = vendas.find(v => v.id === id);
+        // Função para editar cliente
+        function editCliente(id) {
+            const clientes = getClientes();
+            const cliente = clientes.find(c => c.id === id);
             
-            if (venda) {
-                // Preencher formulário com dados da venda
-                document.getElementById('cliente').value = venda.cliente;
-                document.getElementById('servico').value = venda.servico;
-                document.getElementById('valor').value = venda.valor;
-                document.getElementById('data').value = venda.data;
-                document.getElementById('segmento').value = venda.segmento;
-                document.getElementById('status').value = venda.status;
-                document.getElementById('observacoes').value = venda.observacoes || '';
+            if (cliente) {
+                // Preencher formulário com dados do cliente
+                document.getElementById('nomeCliente').value = cliente.nome;
+                document.getElementById('segmentoCliente').value = cliente.segmento;
+                document.getElementById('emailCliente').value = cliente.email;
+                document.getElementById('telefoneCliente').value = cliente.telefone;
+                document.getElementById('enderecoCliente').value = cliente.endereco || '';
+                document.getElementById('observacoesCliente').value = cliente.observacoes || '';
                 
-                // Remover venda atual
-                deleteVenda(id, true);
+                // Remover cliente atual
+                deleteCliente(id, true);
                 
                 // Rolar para o formulário
                 document.querySelector('.card-xl').scrollIntoView({ behavior: 'smooth' });
                 
                 // Mostrar alerta
-                KolibraUtils.showAlert('Editando venda ' + id, 'info');
+                KolibraUtils.showAlert('Editando cliente ' + id, 'info');
             }
         }
         
-        // Função para excluir venda
-        function deleteVenda(id, silentMode = false) {
-            if (!silentMode && !confirm('Tem certeza que deseja excluir esta venda?')) {
+        // Função para excluir cliente
+        function deleteCliente(id, silentMode = false) {
+            if (!silentMode && !confirm('Tem certeza que deseja excluir este cliente?')) {
                 return;
             }
             
-            const vendas = getVendas();
-            const updatedVendas = vendas.filter(v => v.id !== id);
+            const clientes = getClientes();
+            const updatedClientes = clientes.filter(c => c.id !== id);
             
-            localStorage.setItem('kolibra_vendas', JSON.stringify(updatedVendas));
+            localStorage.setItem('kolibra_clientes', JSON.stringify(updatedClientes));
             
             // Atualizar tabela
-            const vendasTableBody = document.getElementById('vendasTableBody');
-            const noVendasMessage = document.getElementById('noVendasMessage');
+            const clientesTableBody = document.getElementById('clientesTableBody');
+            const noClientesMessage = document.getElementById('noClientesMessage');
             
             // Limpar tabela
-            vendasTableBody.innerHTML = '';
+            clientesTableBody.innerHTML = '';
             
-            // Verificar se há vendas
-            if (updatedVendas.length === 0) {
-                noVendasMessage.style.display = 'flex';
+            // Verificar se há clientes
+            if (updatedClientes.length === 0) {
+                noClientesMessage.style.display = 'flex';
             } else {
-                // Ocultar mensagem de "sem vendas"
-                noVendasMessage.style.display = 'none';
+                // Ocultar mensagem de "sem clientes"
+                noClientesMessage.style.display = 'none';
                 
-                // Ordenar vendas por data (mais recentes primeiro)
-                updatedVendas.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                // Ordenar clientes por nome
+                updatedClientes.sort((a, b) => a.nome.localeCompare(b.nome));
                 
-                // Adicionar vendas à tabela
-                updatedVendas.forEach(venda => {
+                // Adicionar clientes à tabela
+                updatedClientes.forEach(cliente => {
                     const tr = document.createElement('tr');
                     
                     tr.innerHTML = `
-                        <td>${venda.id}</td>
-                        <td>${KolibraUtils.formatDate(venda.data)}</td>
-                        <td>${venda.cliente}</td>
-                        <td>${venda.servico}</td>
-                        <td>${venda.segmento}</td>
-                        <td>${KolibraUtils.formatCurrency(venda.valor)}</td>
-                        <td>${venda.status}</td>
+                        <td>${cliente.id}</td>
+                        <td>${cliente.nome}</td>
+                        <td>${cliente.segmento}</td>
+                        <td>${cliente.email}</td>
+                        <td>${cliente.telefone}</td>
+                        <td>${cliente.projetosAtivos}</td>
                         <td>
-                            <div class="action-btn view" title="Visualizar" onclick="viewVenda('${venda.id}')">
+                            <div class="action-btn view" title="Visualizar" onclick="viewCliente('${cliente.id}')">
                                 <i class="fas fa-eye"></i>
                             </div>
-                            <div class="action-btn edit" title="Editar" onclick="editVenda('${venda.id}')">
+                            <div class="action-btn edit" title="Editar" onclick="editCliente('${cliente.id}')">
                                 <i class="fas fa-edit"></i>
                             </div>
-                            <div class="action-btn delete" title="Excluir" onclick="deleteVenda('${venda.id}')">
+                            <div class="action-btn delete" title="Excluir" onclick="deleteCliente('${cliente.id}')">
                                 <i class="fas fa-trash"></i>
                             </div>
                         </td>
                     `;
                     
-                    vendasTableBody.appendChild(tr);
+                    clientesTableBody.appendChild(tr);
                 });
             }
             
             if (!silentMode) {
                 // Mostrar alerta de sucesso
-                KolibraUtils.showAlert('Venda excluída com sucesso!', 'success');
-                
-                // Atualizar dashboard se estiver na mesma página
-                if (typeof initDashboardCharts === 'function') {
-                    setTimeout(initDashboardCharts, 100);
-                }
+                KolibraUtils.showAlert('Cliente excluído com sucesso!', 'success');
             }
         }
     </script>
