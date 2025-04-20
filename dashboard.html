@@ -428,6 +428,8 @@
     <script src="js/dashboard-charts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar gráficos do dashboard
+            initDashboardCharts();
             // Verificar autenticação
             if (!localStorage.getItem('kolibra_logged_in') && !sessionStorage.getItem('kolibra_logged_in')) {
                 window.location.href = 'login.html';

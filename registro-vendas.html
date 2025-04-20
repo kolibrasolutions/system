@@ -470,6 +470,11 @@
                 vendaForm.reset();
                 document.getElementById('data').value = KolibraUtils.getCurrentDateFormatted();
                 
+                // Atualizar dashboard se estiver na mesma página
+                if (typeof initDashboardCharts === 'function') {
+                    initDashboardCharts();
+                }
+                
                 // Mostrar alerta de sucesso
                 KolibraUtils.showAlert('Venda registrada com sucesso!', 'success');
             });
@@ -646,6 +651,11 @@
             if (!silentMode) {
                 // Mostrar alerta de sucesso
                 KolibraUtils.showAlert('Venda excluída com sucesso!', 'success');
+                
+                // Atualizar dashboard se estiver na mesma página
+                if (typeof initDashboardCharts === 'function') {
+                    setTimeout(initDashboardCharts, 100);
+                }
             }
         }
     </script>
