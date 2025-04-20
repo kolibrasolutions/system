@@ -81,10 +81,6 @@ function setupNavigation() {
                     window.location.href = 'dashboard.html';
                 } else if (page === 'registro-vendas') {
                     window.location.href = 'registro-vendas.html';
-                } else if (page === 'lista-clientes') {
-                    window.location.href = 'lista-clientes.html';
-                } else if (page === 'catalogo-servicos') {
-                    window.location.href = 'catalogo-servicos.html';
                 } else if (page === 'metas') {
                     window.location.href = 'metas.html';
                 } else {

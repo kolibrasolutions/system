@@ -463,8 +463,11 @@
                 if (clientes.length === 0) {
                     noClientesMessage.style.display = 'flex';
                     
-                    // Adicionar clientes padrão automaticamente se não houver nenhum
-                    addClientesExemplo();
+                    // Adicionar clientes padrão se não houver nenhum
+                    if (confirm('Deseja adicionar alguns clientes de exemplo?')) {
+                        addClientesExemplo();
+                        return;
+                    }
                     return;
                 }
                 

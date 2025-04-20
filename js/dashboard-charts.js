@@ -93,8 +93,8 @@ function updateDashboardStats(stats) {
     // Calcular percentuais
     const percentualReceita = stats.receitaTotal > 0 ? Math.min(Math.round((stats.receitaTotal / metaReceita) * 100), 100) : 0;
     const percentualVendas = stats.vendasTotal > 0 ? Math.min(Math.round((stats.vendasTotal / metaVendas) * 100), 100) : 0;
-    const percentualRetencao = stats.clientesAtivos > 0 ? Math.min(Math.round(metaRetencao), 100) : 0;
-    const percentualConclusao = stats.projetosAtivos > 0 ? Math.min(Math.round(metaConclusao / 2), 100) : 0;
+    const percentualRetencao = stats.clientesAtivos > 0 ? Math.min(Math.round((stats.clientesAtivos / clientesAtivos) * metaRetencao), 100) : 0;
+    const percentualConclusao = stats.projetosAtivos > 0 ? Math.min(Math.round(((stats.projetosAtivos - stats.projetosAtivos) / stats.projetosAtivos) * metaConclusao), 100) : 0;
     
     // Atualizar percentuais
     document.querySelector('.stats-card:nth-child(1) .progress-percentage').textContent = percentualReceita + '%';
