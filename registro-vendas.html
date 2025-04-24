@@ -1,276 +1,1225 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Vendas | Kolibra Solutions</title>
+    <title>Registro de Vendas - Kolibra Solutions</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="css/vendas.css">
+    <style>
+        :root {
+            /* Cores da Kolibra */
+            --primary-color: #004494;
+            --primary-light: #0066cc;
+            --primary-dark: #003366;
+            --accent-color: #FF7F00;
+            --accent-light: #FFA64D;
+            --accent-dark: #CC6600;
+            --light-text: #ffffff;
+            --dark-text: #121212;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-sidebar: #0a0a0a;
+            --success-color: #4CAF50;
+            --warning-color: #FFC107;
+            --danger-color: #F44336;
+            --info-color: #2196F3;
+            
+            /* Sombras */
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            --blue-shadow: 0 0 10px rgba(0, 68, 148, 0.5), 0 0 20px rgba(0, 68, 148, 0.3);
+            --orange-shadow: 0 0 10px rgba(255, 127, 0, 0.5), 0 0 20px rgba(255, 127, 0, 0.3);
+            
+            /* Fontes */
+            --font-primary: 'Poppins', sans-serif;
+            --font-secondary: 'Montserrat', sans-serif;
+            
+            /* Transições */
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--dark-sidebar);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition-medium);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-logo img {
+            height: 40px;
+            margin-right: 10px;
+            transition: var(--transition-medium);
+        }
+        
+        .sidebar.collapsed .sidebar-logo img {
+            margin-right: 0;
+        }
+        
+        .sidebar-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: var(--blue-shadow);
+            transition: var(--transition-medium);
+        }
+        
+        .sidebar.collapsed .sidebar-logo h1 {
+            display: none;
+        }
+        
+        .sidebar-toggle {
+            margin-left: auto;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .sidebar-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar-toggle i {
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: var(--transition-medium);
+        }
+        
+        .sidebar.collapsed .sidebar-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .menu-item.active {
+            background-color: rgba(0, 68, 148, 0.2);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition-fast);
+        }
+        
+        .sidebar.collapsed .menu-icon {
+            margin-right: 0;
+            font-size: 1.4rem;
+        }
+        
+        .menu-item:hover .menu-icon,
+        .menu-item.active .menu-icon {
+            color: var(--primary-color);
+        }
+        
+        .menu-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            transition: var(--transition-fast);
+        }
+        
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+        
+        .menu-item:hover .menu-text,
+        .menu-item.active .menu-text {
+            color: var(--light-text);
+        }
+        
+        .menu-arrow {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            transition: var(--transition-fast);
+        }
+        
+        .sidebar.collapsed .menu-arrow {
+            display: none;
+        }
+        
+        .menu-item:hover .menu-arrow,
+        .menu-item.active .menu-arrow {
+            color: var(--light-text);
+        }
+        
+        .menu-item.expanded .menu-arrow {
+            transform: rotate(90deg);
+        }
+        
+        .submenu {
+            padding-left: 35px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .menu-item.expanded + .submenu {
+            max-height: 500px;
+        }
+        
+        .sidebar.collapsed .submenu {
+            display: none;
+        }
+        
+        .submenu-item {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .submenu-item:hover {
+            color: var(--primary-color);
+        }
+        
+        .submenu-item.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .submenu-icon {
+            width: 20px;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .submenu-text {
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-footer {
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: 600;
+            color: var(--light-text);
+            transition: var(--transition-medium);
+        }
+        
+        .sidebar.collapsed .user-avatar {
+            margin-right: 0;
+        }
+        
+        .user-details {
+            transition: var(--transition-medium);
+        }
+        
+        .sidebar.collapsed .user-details {
+            display: none;
+        }
+        
+        .user-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--light-text);
+        }
+        
+        .user-role {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .logout-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(244, 67, 54, 0.2);
+        }
+        
+        .logout-btn i {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            transition: var(--transition-fast);
+        }
+        
+        .logout-btn:hover i {
+            color: var(--danger-color);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: var(--transition-medium);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .sidebar.collapsed + .main-content {
+            margin-left: 80px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--light-text);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+        
+        .header-action:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-action i {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+        
+        .header-action:hover i {
+            color: var(--light-text);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar-logo h1 {
+                display: none;
+            }
+            
+            .sidebar-logo img {
+                margin-right: 0;
+            }
+            
+            .menu-text, .menu-arrow, .user-details {
+                display: none;
+            }
+            
+            .menu-icon {
+                margin-right: 0;
+                font-size: 1.4rem;
+            }
+            
+            .user-avatar {
+                margin-right: 0;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .submenu {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-actions {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+                box-shadow: none;
+            }
+            
+            .sidebar.mobile-open {
+                width: 280px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            }
+            
+            .sidebar.mobile-open .sidebar-logo h1,
+            .sidebar.mobile-open .menu-text,
+            .sidebar.mobile-open .menu-arrow,
+            .sidebar.mobile-open .user-details {
+                display: block;
+            }
+            
+            .sidebar.mobile-open .sidebar-logo img {
+                margin-right: 10px;
+            }
+            
+            .sidebar.mobile-open .menu-icon {
+                margin-right: 15px;
+                font-size: 1.2rem;
+            }
+            
+            .sidebar.mobile-open .user-avatar {
+                margin-right: 10px;
+            }
+            
+            .sidebar.mobile-open .submenu {
+                display: block;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1000;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: var(--primary-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .mobile-menu-toggle i {
+                color: var(--light-text);
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside id="sidebar" class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-container">
-                    <img id="logo-placeholder" src="img/logo.png" alt="Kolibra Solutions">
-                </div>
-                <button id="sidebar-toggle" class="sidebar-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-            
-            <div class="sidebar-content">
-                <nav class="sidebar-menu">
-                    <ul class="menu-list">
-                        <li class="menu-item" data-page="dashboard">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Dashboard</span>
-                        </li>
-                        <li class="menu-item active" data-toggle="vendas-submenu">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>Vendas</span>
-                            <i class="fas fa-chevron-right submenu-arrow"></i>
-                        </li>
-                        <ul class="submenu show" id="vendas-submenu">
-                            <li class="submenu-item active" data-page="registro-vendas">
-                                <i class="fas fa-plus-circle"></i>
-                                <span>Registrar Venda</span>
-                            </li>
-                            <li class="submenu-item">
-                                <i class="fas fa-list"></i>
-                                <span>Histórico de Vendas</span>
-                            </li>
-                            <li class="submenu-item">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>Relatórios</span>
-                            </li>
-                        </ul>
-                        <li class="menu-item" data-toggle="clientes-submenu">
-                            <i class="fas fa-users"></i>
-                            <span>Clientes</span>
-                            <i class="fas fa-chevron-right submenu-arrow"></i>
-                        </li>
-                        <ul class="submenu" id="clientes-submenu">
-                            <li class="submenu-item" data-page="lista-clientes">
-                                <i class="fas fa-address-book"></i>
-                                <span>Lista de Clientes</span>
-                            </li>
-                            <li class="submenu-item">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Novo Cliente</span>
-                            </li>
-                            <li class="submenu-item">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Segmentação</span>
-                            </li>
-                        </ul>
-                        <li class="menu-item" data-page="catalogo-servicos">
-                            <i class="fas fa-briefcase"></i>
-                            <span>Serviços</span>
-                        </li>
-                        <li class="menu-item">
-                            <i class="fas fa-bullseye"></i>
-                            <span>Metas</span>
-                        </li>
-                        <li class="menu-item">
-                            <i class="fas fa-cog"></i>
-                            <span>Configurações</span>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            
-            <div class="sidebar-footer">
-                <div class="user-info">
-                    <div class="user-avatar" id="user-avatar">A</div>
-                    <div class="user-details">
-                        <div class="user-name" id="user-name">Admin</div>
-                        <div class="user-role">Administrador</div>
-                    </div>
-                </div>
-                <button id="logout-btn" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </div>
-        </aside>
-        
-        <!-- Conteúdo Principal -->
-        <main class="main-content">
-            <!-- Cabeçalho -->
-            <header class="content-header">
-                <div class="header-left">
-                    <button id="mobile-menu-toggle" class="mobile-menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <h1 class="page-title">Registro de Vendas</h1>
-                </div>
-                <div class="header-right">
-                    <div class="search-container">
-                        <input type="text" placeholder="Pesquisar...">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <div class="notification-icon">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </div>
-                    <div class="user-menu">
-                        <img src="img/avatar.png" alt="Avatar" onerror="this.src='https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff'">
-                    </div>
-                </div>
-            </header>
-            
-            <!-- Conteúdo da Página -->
-            <div class="content-body">
-                <div class="page-container">
-                    <!-- Formulário de Registro de Venda -->
-                    <div class="form-card">
-                        <div class="form-header">
-                            <h3>Nova Venda</h3>
-                        </div>
-                        <form id="vendaForm">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="cliente">Cliente *</label>
-                                    <select id="cliente" name="cliente" required>
-                                        <option value="">Selecione um cliente</option>
-                                        <!-- Opções serão preenchidas via JavaScript -->
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="servico">Serviço *</label>
-                                    <select id="servico" name="servico" required>
-                                        <option value="">Selecione um serviço</option>
-                                        <option value="Consultoria de Marketing">Consultoria de Marketing</option>
-                                        <option value="Desenvolvimento Web">Desenvolvimento Web</option>
-                                        <option value="Design Gráfico">Design Gráfico</option>
-                                        <option value="Suporte Técnico">Suporte Técnico</option>
-                                        <option value="Treinamento">Treinamento</option>
-                                        <option value="Análise de Dados">Análise de Dados</option>
-                                        <option value="SEO">SEO</option>
-                                        <option value="Gestão de Redes Sociais">Gestão de Redes Sociais</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="valor">Valor (R$) *</label>
-                                    <input type="number" id="valor" name="valor" step="0.01" min="0" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="data">Data *</label>
-                                    <input type="date" id="data" name="data" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="segmento">Segmento *</label>
-                                    <select id="segmento" name="segmento" required>
-                                        <option value="">Selecione um segmento</option>
-                                        <option value="Tecnologia">Tecnologia</option>
-                                        <option value="Saúde">Saúde</option>
-                                        <option value="Educação">Educação</option>
-                                        <option value="Varejo">Varejo</option>
-                                        <option value="Finanças">Finanças</option>
-                                        <option value="Indústria">Indústria</option>
-                                        <option value="Serviços">Serviços</option>
-                                        <option value="Outro">Outro</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">Status *</label>
-                                    <select id="status" name="status" required>
-                                        <option value="">Selecione um status</option>
-                                        <option value="Concluído">Concluído</option>
-                                        <option value="Em andamento">Em andamento</option>
-                                        <option value="Pendente">Pendente</option>
-                                        <option value="Cancelado">Cancelado</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group full-width">
-                                    <label for="observacoes">Observações</label>
-                                    <textarea id="observacoes" name="observacoes" rows="3"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button type="button" id="limparBtn" class="btn btn-secondary">Limpar</button>
-                                <button type="submit" class="btn btn-primary">Registrar Venda</button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <!-- Tabela de Vendas -->
-                    <div class="table-card">
-                        <div class="table-header">
-                            <h3>Vendas Recentes</h3>
-                            <div class="table-actions">
-                                <div class="search-filter">
-                                    <input type="text" placeholder="Filtrar vendas...">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <button class="btn btn-outline">
-                                    <i class="fas fa-filter"></i>
-                                    Filtros
-                                </button>
-                                <button class="btn btn-outline">
-                                    <i class="fas fa-download"></i>
-                                    Exportar
-                                </button>
-                            </div>
-                        </div>
-                        <div class="table-container">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Data</th>
-                                        <th>Cliente</th>
-                                        <th>Serviço</th>
-                                        <th>Segmento</th>
-                                        <th>Valor</th>
-                                        <th>Status</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="vendasTableBody">
-                                    <!-- Dados das vendas serão inseridos aqui via JavaScript -->
-                                </tbody>
-                            </table>
-                            <div id="noVendasMessage" class="no-data-message">
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>Nenhuma venda registrada</p>
-                                <p class="no-data-subtitle">Registre sua primeira venda usando o formulário ao lado</p>
-                            </div>
-                        </div>
-                        <div class="table-footer">
-                            <div class="pagination">
-                                <button class="pagination-btn" disabled>
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <span class="pagination-info">Página 1 de 1</span>
-                                <button class="pagination-btn" disabled>
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <!-- Mobile Menu Toggle (visible only on small screens) -->
+    <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
     </div>
     
-    <!-- JavaScript -->
-    <script src="js/app.js"></script>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="img/logo.png" alt="Kolibra Solutions Logo" id="logo-placeholder">
+                <h1>KOLIBRA</h1>
+            </div>
+            <div class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-item" data-page="dashboard">
+                <div class="menu-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <div class="menu-text">Dashboard</div>
+            </div>
+            
+            <div class="menu-item expanded" data-toggle="vendas-submenu">
+                <div class="menu-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="menu-text">Vendas</div>
+                <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="submenu" id="vendas-submenu" style="max-height: 500px;">
+                <div class="submenu-item active" data-page="registro-vendas">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Registro de Vendas</div>
+                </div>
+                <div class="submenu-item" data-page="metas">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Acompanhamento de Metas</div>
+                </div>
+                <div class="submenu-item" data-page="analise-servicos">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Análise por Serviço</div>
+                </div>
+            </div>
+            
+            <div class="menu-item" data-toggle="clientes-submenu">
+                <div class="menu-icon"><i class="fas fa-users"></i></div>
+                <div class="menu-text">Clientes</div>
+                <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="submenu" id="clientes-submenu">
+                <div class="submenu-item" data-page="lista-clientes">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Lista de Clientes</div>
+                </div>
+                <div class="submenu-item" data-page="segmentacao">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Segmentação</div>
+                </div>
+                <div class="submenu-item" data-page="projetos-ativos">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Projetos Ativos</div>
+                </div>
+            </div>
+            
+            <div class="menu-item" data-toggle="servicos-submenu">
+                <div class="menu-icon"><i class="fas fa-briefcase"></i></div>
+                <div class="menu-text">Serviços</div>
+                <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="submenu" id="servicos-submenu">
+                <div class="submenu-item" data-page="catalogo">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Catálogo de Serviços</div>
+                </div>
+                <div class="submenu-item" data-page="precos">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Preços e Margens</div>
+                </div>
+            </div>
+            
+            <div class="menu-item" data-toggle="marketing-submenu">
+                <div class="menu-icon"><i class="fas fa-bullhorn"></i></div>
+                <div class="menu-text">Marketing</div>
+                <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="submenu" id="marketing-submenu">
+                <div class="submenu-item" data-page="calendario">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Calendário de Conteúdo</div>
+                </div>
+                <div class="submenu-item" data-page="canais">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Desempenho de Canais</div>
+                </div>
+            </div>
+            
+            <div class="menu-item" data-toggle="financas-submenu">
+                <div class="menu-icon"><i class="fas fa-wallet"></i></div>
+                <div class="menu-text">Finanças</div>
+                <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="submenu" id="financas-submenu">
+                <div class="submenu-item" data-page="receitas">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Receitas e Despesas</div>
+                </div>
+                <div class="submenu-item" data-page="projecoes">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Projeções</div>
+                </div>
+            </div>
+            
+            <div class="menu-item" data-toggle="config-submenu">
+                <div class="menu-icon"><i class="fas fa-cog"></i></div>
+                <div class="menu-text">Configurações</div>
+                <div class="menu-arrow"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div class="submenu" id="config-submenu">
+                <div class="submenu-item" data-page="perfil">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Perfil</div>
+                </div>
+                <div class="submenu-item" data-page="usuarios">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Usuários</div>
+                </div>
+                <div class="submenu-item" data-page="preferencias">
+                    <div class="submenu-icon"><i class="fas fa-circle"></i></div>
+                    <div class="submenu-text">Preferências</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">A</div>
+                <div class="user-details">
+                    <div class="user-name" id="user-name">Admin</div>
+                    <div class="user-role">Administrador</div>
+                </div>
+            </div>
+            <div class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <div class="header">
+            <h1 class="page-title">Registro de Vendas</h1>
+            <div class="header-actions">
+                <div class="header-action">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formulário de Registro de Vendas -->
+        <div class="form-container">
+            <h2 class="form-title">Nova Venda</h2>
+            
+            <form id="vendas-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="cliente">Cliente</label>
+                        <select class="form-select" id="cliente" required>
+                            <option value="">Selecione um cliente</option>
+                            <option value="1">Maria Silva (Confeitaria Doce Sabor)</option>
+                            <option value="2">João Barbosa (Barbearia Vintage)</option>
+                            <option value="3">Ana Terapias Holísticas</option>
+                            <option value="4">Estética Bella</option>
+                            <option value="5">Hamburgueria Artesanal</option>
+                            <option value="novo">+ Novo Cliente</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="segmento">Segmento</label>
+                        <select class="form-select" id="segmento" required>
+                            <option value="">Selecione um segmento</option>
+                            <option value="beleza">Profissionais de Beleza e Estética</option>
+                            <option value="bem-estar">Terapias e Bem-estar</option>
+                            <option value="servicos">Serviços Domésticos Especializados</option>
+                            <option value="gastronomia">Gastronomia</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="tipo-servico">Tipo de Serviço</label>
+                        <select class="form-select" id="tipo-servico" required>
+                            <option value="">Selecione um tipo</option>
+                            <option value="site">Site</option>
+                            <option value="branding">Branding</option>
+                            <option value="kit">Kit Segmentado</option>
+                            <option value="suporte">Suporte Mensal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="servico">Serviço Específico</label>
+                        <select class="form-select" id="servico" required>
+                            <option value="">Selecione um serviço</option>
+                            <!-- Opções serão carregadas dinamicamente via JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="valor">Valor (R$)</label>
+                        <input type="number" class="form-control" id="valor" placeholder="0,00" step="0.01" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="data-venda">Data da Venda</label>
+                        <input type="date" class="form-control" id="data-venda" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="prazo-entrega">Prazo de Entrega</label>
+                        <input type="date" class="form-control" id="prazo-entrega" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="forma-pagamento">Forma de Pagamento</label>
+                        <select class="form-select" id="forma-pagamento" required>
+                            <option value="">Selecione</option>
+                            <option value="pix">PIX</option>
+                            <option value="cartao">Cartão de Crédito</option>
+                            <option value="boleto">Boleto</option>
+                            <option value="transferencia">Transferência Bancária</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="status">Status</label>
+                        <select class="form-select" id="status" required>
+                            <option value="pendente">Pendente</option>
+                            <option value="em-andamento">Em Andamento</option>
+                            <option value="concluido">Concluído</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="observacoes">Observações</label>
+                        <textarea class="form-control" id="observacoes" placeholder="Detalhes adicionais sobre a venda..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-cancelar">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="btn-salvar">
+                        <i class="fas fa-save"></i> Salvar Venda
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Filtros -->
+        <div class="filters-container">
+            <div class="filter-group">
+                <span class="filter-label">Período:</span>
+                <input type="date" class="filter-date" id="data-inicio">
+                <span class="filter-label" style="margin: 0 10px;">até</span>
+                <input type="date" class="filter-date" id="data-fim">
+            </div>
+            
+            <div class="filter-group">
+                <span class="filter-label">Tipo:</span>
+                <select class="filter-select" id="filtro-tipo">
+                    <option value="">Todos</option>
+                    <option value="site">Sites</option>
+                    <option value="branding">Branding</option>
+                    <option value="kit">Kits</option>
+                    <option value="suporte">Suporte</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <span class="filter-label">Status:</span>
+                <select class="filter-select" id="filtro-status">
+                    <option value="">Todos</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="em-andamento">Em Andamento</option>
+                    <option value="concluido">Concluído</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn btn-primary btn-filter" id="btn-filtrar">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tabela de Vendas -->
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Serviço</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Prazo</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1001</td>
+                        <td>Maria Silva</td>
+                        <td>Kit Confeitaria Digital</td>
+                        <td>R$ 150,00</td>
+                        <td>15/04/2025</td>
+                        <td>30/04/2025</td>
+                        <td><span class="status-badge active">Em Andamento</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <div class="table-action view" title="Visualizar">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="table-action edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="table-action delete" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#1000</td>
+                        <td>João Barbosa</td>
+                        <td>Suporte para Redes Sociais</td>
+                        <td>R$ 40,00</td>
+                        <td>10/04/2025</td>
+                        <td>10/05/2025</td>
+                        <td><span class="status-badge active">Em Andamento</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <div class="table-action view" title="Visualizar">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="table-action edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="table-action delete" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#999</td>
+                        <td>Ana Terapias</td>
+                        <td>Kit Terapia Holística</td>
+                        <td>R$ 497,00</td>
+                        <td>05/04/2025</td>
+                        <td>25/04/2025</td>
+                        <td><span class="status-badge pending">Pendente</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <div class="table-action view" title="Visualizar">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="table-action edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="table-action delete" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#998</td>
+                        <td>Estética Bella</td>
+                        <td>Site Intermediário</td>
+                        <td>R$ 600,00</td>
+                        <td>01/04/2025</td>
+                        <td>15/04/2025</td>
+                        <td><span class="status-badge completed">Concluído</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <div class="table-action view" title="Visualizar">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="table-action edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="table-action delete" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#997</td>
+                        <td>Hamburgueria Artesanal</td>
+                        <td>Branding Profissional</td>
+                        <td>R$ 300,00</td>
+                        <td>28/03/2025</td>
+                        <td>10/04/2025</td>
+                        <td><span class="status-badge completed">Concluído</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <div class="table-action view" title="Visualizar">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="table-action edit" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="table-action delete" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Paginação -->
+        <div class="pagination">
+            <div class="pagination-item disabled">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="pagination-item active">1</div>
+            <div class="pagination-item">2</div>
+            <div class="pagination-item">3</div>
+            <div class="pagination-item">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar autenticação
+            if (!localStorage.getItem('kolibra_logged_in') && !sessionStorage.getItem('kolibra_logged_in')) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Definir nome do usuário
+            const username = localStorage.getItem('kolibra_username') || sessionStorage.getItem('kolibra_username') || 'Admin';
+            document.getElementById('user-name').textContent = username;
+            document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+            
+            // Toggle Sidebar
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const mainContent = document.getElementById('main-content');
+            
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+            });
+            
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('mobile-open');
+                });
+            }
+            
+            // Submenu Toggle
+            const menuItems = document.querySelectorAll('.menu-item[data-toggle]');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const submenuId = this.getAttribute('data-toggle');
+                    this.classList.toggle('expanded');
+                });
+            });
+            
+            // Logout
+            const logoutBtn = document.getElementById('logout-btn');
+            
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('kolibra_logged_in');
+                localStorage.removeItem('kolibra_username');
+                sessionStorage.removeItem('kolibra_logged_in');
+                sessionStorage.removeItem('kolibra_username');
+                window.location.href = 'login.html';
+            });
+            
+            // Gerar logo placeholder se a imagem não existir
+            const logoPlaceholder = document.getElementById('logo-placeholder');
+            logoPlaceholder.onerror = function() {
+                this.onerror = null;
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNDAgMTBDMjMuNDMgMTAgMTAgMjMuNDMgMTAgNDBDMTAgNTYuNTcgMjMuNDMgNzAgNDAgNzBDNTYuNTcgNzAgNzAgNTYuNTcgNzAgNDBDNzAgMjMuNDMgNTYuNTcgMTAgNDAgMTBaIiBmaWxsPSIjMDA0NDk0Ii8+PHBhdGggZD0iTTUwIDI1TDMwIDQwTDUwIDU1VjI1WiIgZmlsbD0iI0ZGN0YwMCIvPjwvc3ZnPg==';
+            };
+            
+            // Carregar opções de serviço com base no tipo selecionado
+            const tipoServicoSelect = document.getElementById('tipo-servico');
+            const servicoSelect = document.getElementById('servico');
+            const valorInput = document.getElementById('valor');
+            
+            // Dados dos serviços da Kolibra
+            const servicos = {
+                site: [
+                    { id: 'site-basico', nome: 'Site Básico', valor: 300 },
+                    { id: 'site-intermediario', nome: 'Site Intermediário', valor: 600 },
+                    { id: 'site-avancado', nome: 'Site Avançado', valor: 900 },
+                    { id: 'landing-page', nome: 'Landing Page', valor: 300 }
+                ],
+                branding: [
+                    { id: 'logo', nome: 'Logo', valor: 100 },
+                    { id: 'branding-profissional', nome: 'Branding Profissional', valor: 300 }
+                ],
+                kit: [
+                    { id: 'kit-beleza', nome: 'Kit Beleza e Estética', valor: 347 },
+                    { id: 'kit-terapia', nome: 'Kit Terapia Holística', valor: 497 },
+                    { id: 'kit-pet', nome: 'Kit Pet Care', valor: 297 },
+                    { id: 'kit-confeitaria', nome: 'Kit Confeitaria Digital', valor: 150 }
+                ],
+                suporte: [
+                    { id: 'suporte-basico', nome: 'Suporte Básico', valor: 25 },
+                    { id: 'suporte-redes', nome: 'Suporte Para Redes Sociais', valor: 40 },
+                    { id: 'suporte-site', nome: 'Suporte para Site', valor: 50 }
+                ]
+            };
+            
+            tipoServicoSelect.addEventListener('change', function() {
+                const tipo = this.value;
+                
+                // Limpar opções atuais
+                servicoSelect.innerHTML = '<option value="">Selecione um serviço</option>';
+                
+                // Se um tipo válido foi selecionado
+                if (tipo && servicos[tipo]) {
+                    // Adicionar novas opções
+                    servicos[tipo].forEach(servico => {
+                        const option = document.createElement('option');
+                        option.value = servico.id;
+                        option.textContent = servico.nome;
+                        option.dataset.valor = servico.valor;
+                        servicoSelect.appendChild(option);
+                    });
+                }
+            });
+            
+            // Atualizar valor quando serviço for selecionado
+            servicoSelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                if (selectedOption && selectedOption.dataset.valor) {
+                    valorInput.value = selectedOption.dataset.valor;
+                }
+            });
+            
+            // Definir data atual para o campo de data da venda
+            const hoje = new Date();
+            const dataFormatada = hoje.toISOString().split('T')[0];
+            document.getElementById('data-venda').value = dataFormatada;
+            
+            // Calcular prazo de entrega padrão (15 dias após a data da venda)
+            const prazoEntrega = new Date(hoje);
+            prazoEntrega.setDate(prazoEntrega.getDate() + 15);
+            const prazoFormatado = prazoEntrega.toISOString().split('T')[0];
+            document.getElementById('prazo-entrega').value = prazoFormatado;
+            
+            // Manipular envio do formulário
+            const form = document.getElementById('vendas-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Aqui você implementaria a lógica para salvar a venda
+                // Por enquanto, apenas mostraremos um alerta
+                alert('Venda registrada com sucesso!');
+                
+                // Limpar formulário
+                form.reset();
+                
+                // Redefinir datas
+                document.getElementById('data-venda').value = dataFormatada;
+                document.getElementById('prazo-entrega').value = prazoFormatado;
+            });
+            
+            // Botão cancelar
+            document.getElementById('btn-cancelar').addEventListener('click', function() {
+                form.reset();
+                document.getElementById('data-venda').value = dataFormatada;
+                document.getElementById('prazo-entrega').value = prazoFormatado;
+            });
+            
+            // Navegação entre páginas
+            document.querySelectorAll('.menu-item, .submenu-item').forEach(item => {
+                if (item.dataset.page) {
+                    item.addEventListener('click', function() {
+                        const page = this.dataset.page;
+                        if (page === 'dashboard') {
+                            window.location.href = 'dashboard.html';
+                        }
+                        // Outras páginas seriam implementadas de forma similar
+                    });
+                }
+            });
+            
+            // Ações da tabela
+            document.querySelectorAll('.table-action').forEach(action => {
+                action.addEventListener('click', function() {
+                    const type = this.classList.contains('view') ? 'visualizar' :
+                                this.classList.contains('edit') ? 'editar' :
+                                'excluir';
+                    
+                    const row = this.closest('tr');
+                    const id = row.cells[0].textContent;
+                    const cliente = row.cells[1].textContent;
+                    
+                    if (type === 'excluir') {
+                        if (confirm(`Deseja realmente excluir a venda ${id} para ${cliente}?`)) {
+                            // Aqui você implementaria a lógica para excluir a venda
+                            row.remove();
+                            alert('Venda excluída com sucesso!');
+                        }
+                    } else if (type === 'editar') {
+                        // Aqui você implementaria a lógica para editar a venda
+                        alert(`Editando venda ${id} para ${cliente}`);
+                    } else {
+                        // Aqui você implementaria a lógica para visualizar a venda
+                        alert(`Visualizando venda ${id} para ${cliente}`);
+                    }
+                });
+            });
+            
+            // Filtros
+            document.getElementById('btn-filtrar').addEventListener('click', function() {
+                const dataInicio = document.getElementById('data-inicio').value;
+                const dataFim = document.getElementById('data-fim').value;
+                const tipo = document.getElementById('filtro-tipo').value;
+                const status = document.getElementById('filtro-status').value;
+                
+                // Aqui você implementaria a lógica para filtrar a tabela
+                alert(`Filtros aplicados:\nPeríodo: ${dataInicio || 'Início'} até ${dataFim || 'Fim'}\nTipo: ${tipo || 'Todos'}\nStatus: ${status || 'Todos'}`);
+            });
+            
+            // Paginação
+            document.querySelectorAll('.pagination-item').forEach(item => {
+                if (!item.classList.contains('disabled')) {
+                    item.addEventListener('click', function() {
+                        document.querySelectorAll('.pagination-item').forEach(i => {
+                            i.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Aqui você implementaria a lógica para mudar de página
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
